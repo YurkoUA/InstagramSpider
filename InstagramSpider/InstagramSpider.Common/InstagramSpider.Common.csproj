@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\JsonHelper.cs" />
     <Compile Include="InstagramClient.cs" />
     <Compile Include="Models\FileModel.cs" />
     <Compile Include="Models\Instagram\Enums\MediaTypeName.cs" />
@@ -61,6 +62,7 @@
     <Compile Include="Models\Instagram\UserProfile.cs" />
     <Compile Include="Models\Instagram\WindowData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Queue\QueueSender.cs" />
     <Compile Include="Utils\CustomHttpClient.cs" />
     <Compile Include="Utils\JsonPathConverter.cs" />
   </ItemGroup>

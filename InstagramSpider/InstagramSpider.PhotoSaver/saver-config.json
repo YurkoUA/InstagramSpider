@@ -1,0 +1,6 @@
+﻿{
+  "FileLocation": "D:\\Instagram",
+
+  "QueueHost": "localhost",
+  "QueueName": "ImagesQueue"
+}
