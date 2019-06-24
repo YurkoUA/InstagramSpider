@@ -1,7 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using InstagramSpider.Common.Utils;
+using Newtonsoft.Json;
 
 namespace InstagramSpider.Common.Models.Instagram
 {
+    [JsonConverter(typeof(JsonPathConverter))]
     public class UserProfile : User
     {
         [JsonProperty("profile_pic_url_hd")]

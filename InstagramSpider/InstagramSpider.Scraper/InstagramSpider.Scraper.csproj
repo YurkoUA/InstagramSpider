@@ -44,10 +44,20 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScraperClient.cs" />
+    <Compile Include="ScraperConfig.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="scraper-config.json" />
+    <None Include="scraper-config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\InstagramSpider.Common\InstagramSpider.Common.csproj">
+      <Project>{B38AAC00-68FF-4980-AF1A-46518790DA0C}</Project>
+      <Name>InstagramSpider.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

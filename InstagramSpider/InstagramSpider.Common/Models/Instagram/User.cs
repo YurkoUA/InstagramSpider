@@ -5,7 +5,7 @@ namespace InstagramSpider.Common.Models.Instagram
     public class User
     {
         [JsonProperty("id")]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         [JsonProperty("full_name")]
         public string FullName { get; set; }

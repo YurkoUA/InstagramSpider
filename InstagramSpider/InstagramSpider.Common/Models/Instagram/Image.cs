@@ -1,14 +1,17 @@
 ﻿using Newtonsoft.Json;
+using InstagramSpider.Common.Utils;
+
 
 namespace InstagramSpider.Common.Models.Instagram
 {
+    [JsonConverter(typeof(JsonPathConverter))]
     public class Image
     {
         [JsonProperty("id")]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
-        [JsonProperty("edge_media_to_caption.edges.0.node.text")]
-        public string Text { get; set; }
+        //[JsonProperty("edge_media_to_caption.edges.0.node.text")]
+        //public string Text { get; set; }
 
         [JsonProperty("display_url")]
         public string Url {get; set; }

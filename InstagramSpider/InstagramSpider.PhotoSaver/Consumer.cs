@@ -17,6 +17,7 @@ namespace InstagramSpider.PhotoSaver
         public Consumer(IModel model, FileSaver fileSaver) : base(model)
         {
             _fileSaver = fileSaver;
+            Received += OnReceived;
         }
 
         private void OnReceived(object sender, BasicDeliverEventArgs e)
@@ -28,6 +29,9 @@ namespace InstagramSpider.PhotoSaver
 
             var json = Encoding.UTF8.GetString(e.Body);
             var images = JsonHelper.Deserialize<FileModel[]>(json);
+
+            Console.WriteLine($"{images.Count()} received.");
+
             _fileSaver.Save(images);
         }
     }

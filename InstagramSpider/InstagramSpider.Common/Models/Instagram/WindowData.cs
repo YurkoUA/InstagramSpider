@@ -10,7 +10,7 @@ namespace InstagramSpider.Common.Models.Instagram
         [JsonProperty("config.csrf_token")]
         public string CsrfToken { get; set; }
 
-        [JsonProperty("entry_data.ProfilePage.0.graphql.user")]
-        public IEnumerable<UserProfile> Users { get; set; }
+        [JsonProperty("entry_data.ProfilePage")]
+        public IEnumerable<GraphQLUser> Users { get; set; }
     }
 }

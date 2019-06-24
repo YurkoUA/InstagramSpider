@@ -18,7 +18,7 @@ namespace InstagramSpider.Common
         public async Task<WindowData> GetProfile(string userName)
         {
             var html = await _httpClient.Get($"https://instagram.com/{userName}");
-            var pattern = "window._sharedData = {*};";
+            var pattern = @"window._sharedData = {.*};</script>";
             var match = Regex.Match(html, pattern);
 
             if (!match.Success)
@@ -28,7 +28,7 @@ namespace InstagramSpider.Common
 
             html = match.Value;
             html = html.Replace("window._sharedData = ", string.Empty);
-            html = html.Remove(html.Length - 1);
+            html = html.Replace(";</script>", string.Empty);
 
             var profile = JsonConvert.DeserializeObject<WindowData>(html);
 

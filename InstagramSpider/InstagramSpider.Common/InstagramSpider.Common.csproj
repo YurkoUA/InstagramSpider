@@ -54,6 +54,7 @@
     <Compile Include="InstagramClient.cs" />
     <Compile Include="Models\FileModel.cs" />
     <Compile Include="Models\Instagram\Enums\MediaTypeName.cs" />
+    <Compile Include="Models\Instagram\GraphQLUser.cs" />
     <Compile Include="Models\Instagram\Image.cs" />
     <Compile Include="Models\Instagram\NodeModel.cs" />
     <Compile Include="Models\Instagram\PageInfo.cs" />
@@ -69,5 +70,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
