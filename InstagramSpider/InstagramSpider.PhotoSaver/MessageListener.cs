@@ -1,35 +1,45 @@
 ﻿using RabbitMQ.Client;
+using InstagramSpider.Common.Interfaces;
 
 namespace InstagramSpider.PhotoSaver
 {
-    public static class MessageListener
+    public class MessageListener
     {
-        private static IConnection connection;
-        private static IModel channel;
+        private IConnection _connection;
+        private IModel _channel;
 
-        public static void Start(FileSaver fileSaver)
+        private readonly IFileSaver _fileSaver;
+        private readonly SaverConfig _config;
+
+        public MessageListener(IFileSaver fileSaver, SaverConfig config)
         {
-            var factory = new ConnectionFactory { HostName = "localhost" };
-
-            connection = factory.CreateConnection();
-            channel = connection.CreateModel();
-
-            var consumer = new Consumer(channel, fileSaver);
-            RegisterReceiver("ImagesQueue", consumer);
+            _fileSaver = fileSaver;
+            _config = config;
         }
 
-        public static void Stop()
+        public void Start()
         {
-            channel.Close(200, "Consumer service is stopped");
-            connection.Close();
+            var factory = new ConnectionFactory { HostName = _config.QueueHost };
+
+            _connection = factory.CreateConnection();
+            _channel = _connection.CreateModel();
+
+            var consumer = new Consumer(_channel, _fileSaver);
+            RegisterReceiver(_config.QueueName, consumer);
         }
 
-        public static void RegisterReceiver(string receiverType, IBasicConsumer consumer)
+        public void Stop()
         {
-            channel.ExchangeDeclare(exchange: receiverType, type: "direct", durable: true);
-            channel.QueueDeclare(queue: receiverType, durable: false, exclusive: false, autoDelete: false, arguments: null);
-            channel.QueueBind(queue: receiverType, exchange: receiverType, routingKey: string.Empty);
-            channel.BasicConsume(queue: receiverType, autoAck: true, consumer: consumer);
+            _channel.Close(200, "Consumer service is stopped");
+            _connection.Close();
+        }
+
+        public void RegisterReceiver(string receiverType, IBasicConsumer consumer)
+        {
+            _channel.ExchangeDeclare(exchange: receiverType, type: "direct", durable: true);
+            _channel.QueueDeclare(queue: receiverType, durable: false, exclusive: false, autoDelete: false, arguments: null);
+            _channel.QueueBind(queue: receiverType, exchange: receiverType, routingKey: string.Empty);
+            _channel.BasicConsume(queue: receiverType, autoAck: true, consumer: consumer);
         }
     }
 }

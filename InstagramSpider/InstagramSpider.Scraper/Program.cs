@@ -11,18 +11,22 @@ namespace InstagramSpider.Scraper
     {
         static void Main(string[] args)
         {
+            Task scraperTask = null;
+
             try
             {
                 var file = Environment.CurrentDirectory + "\\scraper-config.json";
                 var config = JsonHelper.DeserializeFile<ScraperConfig>(file);
                 var scraper = new ScraperClient(config);
 
-                var scraperTask = scraper.Start();
+                scraperTask = scraper.Start();
+                Console.WriteLine("Scraper is working.");
                 scraperTask.Wait();
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                var except = scraperTask.IsFaulted ? scraperTask.Exception : ex;
+                Console.WriteLine(except.Message);
             }
             finally
             {

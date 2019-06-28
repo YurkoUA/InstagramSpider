@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using InstagramSpider.Common.Helpers;
 
 namespace InstagramSpider.PhotoSaver
@@ -11,11 +7,15 @@ namespace InstagramSpider.PhotoSaver
     {
         static void Main(string[] args)
         {
+            MessageListener listener = null;
+
             try
             {
                 var file = Environment.CurrentDirectory + "\\saver-config.json";
                 var config = JsonHelper.DeserializeFile<SaverConfig>(file);
-                MessageListener.Start(new FileSaver(config.OutputDirectory));
+
+                listener = new MessageListener(new FileSaver(config.OutputDirectory), config);
+                listener.Start();
 
                 Console.WriteLine("Photo Saver is working...");
             }
@@ -26,7 +26,7 @@ namespace InstagramSpider.PhotoSaver
             finally
             {
                 Console.ReadKey();
-                MessageListener.Stop();
+                listener?.Stop();
             }
         }
     }

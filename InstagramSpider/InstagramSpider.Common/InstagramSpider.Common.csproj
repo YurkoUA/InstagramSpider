@@ -50,8 +50,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Helpers\JsonHelper.cs" />
     <Compile Include="InstagramClient.cs" />
+    <Compile Include="Interfaces\IFileSaver.cs" />
     <Compile Include="Models\FileModel.cs" />
     <Compile Include="Models\Instagram\Enums\MediaTypeName.cs" />
     <Compile Include="Models\Instagram\GraphQLUser.cs" />

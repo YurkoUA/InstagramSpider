@@ -7,14 +7,15 @@ using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using InstagramSpider.Common.Helpers;
 using InstagramSpider.Common.Models;
+using InstagramSpider.Common.Interfaces;
 
 namespace InstagramSpider.PhotoSaver
 {
     public class Consumer : EventingBasicConsumer
     {
-        private readonly FileSaver _fileSaver;
+        private readonly IFileSaver _fileSaver;
 
-        public Consumer(IModel model, FileSaver fileSaver) : base(model)
+        public Consumer(IModel model, IFileSaver fileSaver) : base(model)
         {
             _fileSaver = fileSaver;
             Received += OnReceived;
@@ -30,7 +31,7 @@ namespace InstagramSpider.PhotoSaver
             var json = Encoding.UTF8.GetString(e.Body);
             var images = JsonHelper.Deserialize<FileModel[]>(json);
 
-            Console.WriteLine($"{images.Count()} received.");
+            Console.WriteLine($"{images.Count()} images received.");
 
             _fileSaver.Save(images);
         }

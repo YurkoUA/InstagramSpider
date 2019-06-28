@@ -29,24 +29,33 @@ namespace InstagramSpider.Scraper
 
             if (user == null)
             {
-                throw new Exception("Profile is not found.");
+                Console.WriteLine($"Profile {user.UserName} is not found.");
+                return;
             }
 
             Console.WriteLine($"User {user.UserName} has {user.Media.Count} photos/videos.");
 
-            var files = user.Media.Media
-                .Where(i => !i.Node.IsVideo)
-                .Select(i => new FileModel
-                {
-                    Url = i.Node.Url,
-                    Name = $"{user.UserName}\\{user.UserName}_{i.Node.Id }"
-                }).ToList();
+            var files = new List<FileModel>();
 
-            files.Add(new FileModel
+            if (!string.IsNullOrEmpty(user.ProfilePictureUrl))
             {
-                Name = user.UserName,
-                Url = user.ProfilePictureUrl
-            });
+                files.Add(new FileModel
+                {
+                    Name = $"{user.UserName}\\{user.UserName}",
+                    Url = user.ProfilePictureUrl
+                });
+            }
+
+            if (!user.IsPrivate && user.Media.Count > 0)
+            {
+                files.AddRange(user.Media.Media
+                    .Where(i => !i.Node.IsVideo)
+                    .Select(i => new FileModel
+                    {
+                        Url = i.Node.Url,
+                        Name = $"{user.UserName}\\{user.UserName}_{i.Node.Id}"
+                    }));
+            }
 
             _queue.Push(files);
 
